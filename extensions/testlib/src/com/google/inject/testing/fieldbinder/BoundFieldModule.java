@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 @Inject @Toolable void initialize(Injector injector) {if (this.injector != null) {throw new ConfigurationException( ImmutableList.of(new Message(FactoryProvider2.class,"Factories.create() factories may only be used in one Injector!")));
-
 }this.injector = injector;for (Map.Entry<Method, AssistData> entry : assistDataByMethod.entrySet()) { Method method = entry.getKey();  AssistData data = entry.getValue(); Object[] args;
 
   if (!data.optimized) { args = new Object[method.getParameterTypes().length]; Arrays.fill(args, "dummy object for validating Factories"); } else {  args = null; // won't be used -- instead will bind to data.providers.
@@ -42,8 +41,7 @@ AssistData data = assistDataByMethod.get(method);checkState(data != null, "No da
 } catch (ProvisionException e) {if (e.getErrorMessages().size() == 1) {Message onlyError = getOnlyElement(e.getErrorMessages());Throwable cause = onlyError.getCause();if (cause != null && canRethrow(method, cause)) {
 
       throw cause; }}throw e;} finally {for (ThreadLocalProvider tlp : data.providers) { tlp.remove(); } } }
-package com.google.inject.testing.fieldbinder;
-
+package com.google.inject.testing.fieldbind
 import static java.util.Arrays.stream;
 
 import com.google.common.base.Optional;
