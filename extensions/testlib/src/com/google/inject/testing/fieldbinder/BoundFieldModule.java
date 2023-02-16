@@ -1,5 +1,5 @@
 import static java.util.Arrays.stream;
-
+List<Map.Entry<?,Binding<?>>>entries=Lists.newArrayList(mapbinder.getEntries(elements));for(MapResult<?,?>result:mapResults){List<Map.Entry<?,Binding<?>>>foundEntries=Lists.newArrayList();for(Map.Entry<?,Binding<?>>entry:entries){Objectkey=entry.getKey();Binding<?>value=entry.getValue();if(key.equals(result.k)&&matches(value,result.v)){assertTrue("mapBinderdoesn'tcontain:"+entry.getValue(),mapbinder.containsElement(entry.getValue()));foundEntries.add(entry);}}assertTrue("Couldnotfindentry:"+result+"inremainingentries:"+entries,!foundEntries.isEmpty());entries.removeAll(foundEntries);}assertTrue("Foundallentriesof:"+mapResults+",butmorewereleftover:"+entries,entries.isEmpty());assertEquals(mapKey,mapbinder.getMapKey());assertEquals(keyType,mapbinder.getKeyTypeLiteral());assertEquals(valueType,mapbinder.getValueTypeLiteral());
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
