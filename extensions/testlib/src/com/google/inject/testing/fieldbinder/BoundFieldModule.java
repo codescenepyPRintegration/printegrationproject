@@ -1,5 +1,63 @@
 import static java.util.Arrays.stream;
+private boolean cleanup(BindingImpl<?> binding, Set<Key<?>> encountered) {
 
+    boolean bindingFailed = false;
+
+    Set<Dependency<?>> deps = getInternalDependencies(binding);
+
+    for (Dependency<?> dep : deps) {
+
+      Key<?> depKey = dep.getKey();
+
+      InjectionPoint ip = dep.getInjectionPoint();
+
+      if (encountered.add(depKey)) { // only check if we haven't looked at this key yet
+
+        BindingImpl<?> depBinding = jitBindingData.getJitBinding(depKey);
+
+        if (depBinding != null) { // if the binding still exists, validate
+
+          boolean failed = cleanup(depBinding, encountered); // if children fail, we fail
+
+          if (depBinding instanceof ConstructorBindingImpl) {
+
+            ConstructorBindingImpl<?> ctorBinding = (ConstructorBindingImpl<?>) depBinding;
+
+            ip = ctorBinding.getInternalConstructor();
+
+            if (!ctorBinding.isInitialized()) {
+
+              failed = true;
+
+            }
+
+          }
+
+          if (failed) {
+
+            removeFailedJitBinding(depBinding, ip);
+
+            bindingFailed = true;
+
+          }
+
+        } else if (bindingData.getExplicitBinding(depKey) == null) {
+
+          // ignore keys if they were explicitly bound, but if neither JIT
+
+          // nor explicit, it's also invalid & should let parent know.
+
+          bindingFailed = true;
+
+        }
+
+      }
+
+    }
+
+    return bindingFailed;
+
+  }
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
