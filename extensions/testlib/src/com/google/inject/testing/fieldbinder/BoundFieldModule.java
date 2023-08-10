@@ -1,5 +1,11 @@
 import static java.util.Arrays.stream;
-
+private boolean cleanup(BindingImpl<?> binding, Set<Key<?>> encountered) { boolean bindingFailed = false;
+    Set<Dependency<?>> deps = getInternalDependencies(binding); for (Dependency<?> dep : deps) { Key<?> depKey = dep.getKey();
+      InjectionPoint ip = dep.getInjectionPoint(); if (encountered.add(depKey)) { BindingImpl<?> depBinding = jitBindingData.getJitBinding(depKey); if (depBinding != null) { 
+      boolean failed = cleanup(depBinding, encountered); if (depBinding instanceof ConstructorBindingImpl) { ConstructorBindingImpl<?> ctorBinding = (ConstructorBindingImpl<?>) depBinding;
+      ip = ctorBinding.getInternalConstructor(); if (!ctorBinding.isInitialized()) { failed = true; } }
+      if (failed) { removeFailedJitBinding(depBinding, ip); bindingFailed = true; }} else if (bindingData.getExplicitBinding(depKey) == null) { bindingFailed = true; }}}
+    return bindingFailed;}
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
