@@ -4,3 +4,21 @@ alias(
     name = "aopalliance",
     actual = "@maven//:aopalliance_aopalliance",
 )
+package(default_visibility = ["//:src"])
+
+alias(
+    name = "aopalliance",
+    actual = "@maven//:aopalliance_aopalliance",
+)
+package(default_visibility = ["//:src"])
+
+alias(
+    name = "aopalliance",
+    actual = "@maven//:aopalliance_aopalliance",
+)
+package(default_visibility = ["//:src"])
+
+alias(
+    name = "aopalliance",
+    actual = "@maven//:aopalliance_aopalliance",
+)
