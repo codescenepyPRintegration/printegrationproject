@@ -1,90 +1,276 @@
-/*
- * Copyright (C) 2006 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package com.example;
 
-package com.google.inject.example;
+import static org.junit.Assert.assertEquals;
 
-import static junit.framework.Assert.assertTrue;
+import com.google.inject.Guice;
+import com.google.inject.testing.fieldbinder.Bind;
+import com.google.inject.testing.fieldbinder.BoundFieldModule;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-/** @author crazybob@google.com (Bob Lee) */
-public class ClientServiceWithFactories {
+/** Unit test for simple App. */
+@RunWith(JUnit4.class)
+public final class AppTest {
+  private final List<String> messages = new ArrayList<>();
 
-  // 58 lines
+  @Bind @App.Message private final String message = "hello, test";
 
-  public interface Service {
-    void go();
+  @Bind
+  private final Printer printer =
+      new Printer() {
+        @Override
+        public void printMessage(String message) {
+          messages.add(message);
+        }
+      };
+
+  @Inject private App app;
+
+  @Before
+  public void setUp() {
+    Guice.createInjector(BoundFieldModule.of(tpackage com.example;
+
+import static org.junit.Assert.assertEquals;
+
+import com.google.inject.Guice;
+import com.google.inject.testing.fieldbinder.Bind;
+import com.google.inject.testing.fieldbinder.BoundFieldModule;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+/** Unit test for simple App. */
+@RunWith(JUnit4.class)
+public final class AppTest {
+  private final List<String> messages = new ArrayList<>();
+
+  @Bind @App.Message private final String message = "hello, test";
+
+  @Bind
+  private final Printer printer =
+      new Printer() {
+        @Override
+        public void printMessage(String message) {
+          messages.add(message);
+        }
+      };
+
+  @Inject private App app;
+
+  @Before
+  public void setUp() {
+    Guice.createInjector(BoundFieldModule.of(this)).injectMembers(this);
   }
 
-  public static class ServiceImpl implements Service {
-    @Override
-    public void go() {
-      // ...
-    }
+  @Test
+  public void run_printsMessage() {
+    app.run();
+
+    assertEquals(1, messages.size());
+    assertEquals(message, messages.get(0));
+  }
+}
+package com.example;
+
+import static org.junit.Assert.assertEquals;
+
+import com.google.inject.Guice;
+import com.google.inject.testing.fieldbinder.Bind;
+import com.google.inject.testing.fieldbinder.BoundFieldModule;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+/** Unit test for simple App. */
+@RunWith(JUnit4.class)
+public final class AppTest {
+  private final List<String> messages = new ArrayList<>();
+
+  @Bind @App.Message private final String message = "hello, test";
+
+  @Bind
+  private final Printer printer =
+      new Printer() {
+        @Override
+        public void printMessage(String message) {
+          messages.add(message);
+        }
+      };
+
+  @Inject private App app;
+
+  @Before
+  public void setUp() {
+    Guice.createInjector(BoundFieldModule.of(this)).injectMembers(this);
   }
 
-  public static class ServiceFactory {
+  @Test
+  public void run_printsMessage() {
+    app.run();
 
-    private ServiceFactory() {}
+    assertEquals(1, messages.size());
+    assertEquals(message, messages.get(0));
+  }
+}
+package com.example;
 
-    private static Service instance = new ServiceImpl();
+import static org.junit.Assert.assertEquals;
 
-    public static Service getInstance() {
-      return instance;
-    }
+import com.google.inject.Guice;
+import com.google.inject.testing.fieldbinder.Bind;
+import com.google.inject.testing.fieldbinder.BoundFieldModule;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-    public static void setInstance(Service service) {
-      instance = service;
-    }
+/** Unit test for simple App. */
+@RunWith(JUnit4.class)
+public final class AppTest {
+  private final List<String> messages = new ArrayList<>();
+
+  @Bind @App.Message private final String message = "hello, test";
+
+  @Bind
+  private final Printer printer =
+      new Printer() {
+        @Override
+        public void printMessage(String message) {
+          messages.add(message);
+        }
+      };
+
+  @Inject private App app;
+
+  @Before
+  public void setUp() {
+    Guice.createInjector(BoundFieldModule.of(this)).injectMembers(this);
   }
 
-  public static class Client {
+  @Test
+  public void run_printsMessage() {
+    app.run();
 
-    public void go() {
-      Service service = ServiceFactory.getInstance();
-      service.go();
-    }
+    assertEquals(1, messages.size());
+    assertEquals(message, messages.get(0));
+  }
+}
+package com.example;
+
+import static org.junit.Assert.assertEquals;
+
+import com.google.inject.Guice;
+import com.google.inject.testing.fieldbinder.Bind;
+import com.google.inject.testing.fieldbinder.BoundFieldModule;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+/** Unit test for simple App. */
+@RunWith(JUnit4.class)
+public final class AppTest {
+  private final List<String> messages = new ArrayList<>();
+
+  @Bind @App.Message private final String message = "hello, test";
+
+  @Bind
+  private final Printer printer =
+      new Printer() {
+        @Override
+        public void printMessage(String message) {
+          messages.add(message);
+        }
+      };
+
+  @Inject private App app;
+
+  @Before
+  public void setUp() {
+    Guice.createInjector(BoundFieldModule.of(this)).injectMembers(this);
   }
 
-  public void testClient() {
-    Service previous = ServiceFactory.getInstance();
-    try {
-      final MockService mock = new MockService();
-      ServiceFactory.setInstance(mock);
-      Client client = new Client();
-      client.go();
-      assertTrue(mock.isGone());
-    } finally {
-      ServiceFactory.setInstance(previous);
-    }
+  @Test
+  public void run_printsMessage() {
+    app.run();
+
+    assertEquals(1, messages.size());
+    assertEquals(message, messages.get(0));
+  }
+}
+package com.example;
+
+import static org.junit.Assert.assertEquals;
+
+import com.google.inject.Guice;
+import com.google.inject.testing.fieldbinder.Bind;
+import com.google.inject.testing.fieldbinder.BoundFieldModule;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+/** Unit test for simple App. */
+@RunWith(JUnit4.class)
+public final class AppTest {
+  private final List<String> messages = new ArrayList<>();
+
+  @Bind @App.Message private final String message = "hello, test";
+
+  @Bind
+  private final Printer printer =
+      new Printer() {
+        @Override
+        public void printMessage(String message) {
+          messages.add(message);
+        }
+      };
+
+  @Inject private App app;
+
+  @Before
+  public void setUp() {
+    Guice.createInjector(BoundFieldModule.of(this)).injectMembers(this);
   }
 
-  public static class MockService implements Service {
+  @Test
+  public void run_printsMessage() {
+    app.run();
 
-    private boolean gone = false;
-
-    @Override
-    public void go() {
-      gone = true;
-    }
-
-    public boolean isGone() {
-      return gone;
-    }
+    assertEquals(1, messages.size());
+    assertEquals(message, messages.get(0));
+  }
+}
+his)).injectMembers(this);
   }
 
-  public static void main(String[] args) {
-    new ClientServiceWithFactories().testClient();
+  @Test
+  public void run_printsMessage() {
+    app.run();
+
+    assertEquals(1, messages.size());
+    assertEquals(message, messages.get(0));
   }
 }
